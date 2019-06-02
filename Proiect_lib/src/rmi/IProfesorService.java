@@ -8,13 +8,15 @@ package rmi;
 import db.Profesor;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public interface IProfesorService extends Remote{
     public void adaugaProfesor(Profesor p) throws RemoteException;
     public Profesor findById(long id) throws RemoteException;
     public Profesor findByNumePrenume(String nume, String prenume) throws RemoteException;
+    public List<Profesor> getAll() throws RemoteException;
 }

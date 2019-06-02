@@ -6,11 +6,11 @@
 package service;
 
 import dao.ElevDao;
-import dao.ProfesorDao;
 import db.Elev;
-import db.Profesor;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,7 +18,7 @@ import rmi.IElevService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ElevService extends UnicastRemoteObject implements IElevService{
 
@@ -46,6 +46,26 @@ public class ElevService extends UnicastRemoteObject implements IElevService{
         ElevDao elevDao = new ElevDao(em);
         
         Elev e = elevDao.findById(id);
+        em.close();
+        return e;
+    }
+
+    @Override
+    public List<Elev> getAll() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        ElevDao elevDao = new ElevDao(em);
+        
+        List<Elev> elevi = elevDao.getAll();
+        em.close();
+        return elevi;
+    }
+
+    @Override
+    public Elev findByNumePrenume(String nume, String prenume) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        ElevDao elevDao = new ElevDao(em);
+        
+        Elev e = elevDao.findByNumePrenume(nume,prenume);
         em.close();
         return e;
     }

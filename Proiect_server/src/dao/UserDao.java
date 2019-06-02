@@ -7,10 +7,12 @@ package dao;
 
 import db.User;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class UserDao {
     private EntityManager em;
@@ -21,5 +23,13 @@ public class UserDao {
     
     public void adaugaUser(User u){
         em.persist(u);
+    }
+    
+    public User findByUserPass(String user,String pass){
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.user = :user AND u.password = :pass");
+        q.setParameter("user", user);
+        q.setParameter("pass", pass);
+        User u = (User)q.getSingleResult();
+        return u;
     }
 }

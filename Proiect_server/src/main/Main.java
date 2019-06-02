@@ -19,7 +19,7 @@ import service.UserService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class Main {
 
@@ -37,6 +37,8 @@ public class Main {
             registry.rebind("UserService",new UserService());
         } catch (RemoteException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
+        } catch(Exception e){
             System.exit(0);
         }
     }

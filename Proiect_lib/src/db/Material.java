@@ -6,16 +6,21 @@
 package db;
 
 import java.io.Serializable;
+import java.util.List;
 import javafx.scene.text.Text;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
- * @author Razvan
+ * 
  */
 @Entity
 public class Material implements Serializable{
@@ -32,6 +37,14 @@ public class Material implements Serializable{
     
     @Column(nullable = false,length = 60000)
     private String text;
+    
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private Clasa idClasa;
+    
+    @OneToMany(mappedBy = "material",cascade = CascadeType.ALL)
+    private List<Exercitiu> exercitii;
+    
 
     public long getId() {
         return id;
@@ -63,6 +76,27 @@ public class Material implements Serializable{
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Clasa getIdClasa() {
+        return idClasa;
+    }
+
+    public void setIdClasa(Clasa idClasa) {
+        this.idClasa = idClasa;
+    }
+
+    public List<Exercitiu> getExercitii() {
+        return exercitii;
+    }
+
+    public void setExercitii(List<Exercitiu> exercitii) {
+        this.exercitii = exercitii;
+    }
+
+    @Override
+    public String toString() {
+        return nume + " " + capitol;
     }
     
     

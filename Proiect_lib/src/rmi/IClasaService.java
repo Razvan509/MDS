@@ -8,12 +8,13 @@ package rmi;
 import db.Clasa;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public interface IClasaService extends Remote{
     public void adaugaClasa(Clasa c) throws RemoteException;
-    
+    public List<Clasa> getAll() throws RemoteException;
 }

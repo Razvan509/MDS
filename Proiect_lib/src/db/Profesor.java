@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author Razvan
+ * 
  */
 @Entity
 public class Profesor implements Serializable{
@@ -68,6 +68,9 @@ public class Profesor implements Serializable{
         this.clase = clase;
     }
 
-    
+    @Override
+    public String toString() {
+        return nume + " " + prenume;
+    }
     
 }

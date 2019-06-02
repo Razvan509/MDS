@@ -16,7 +16,7 @@ import rmi.IExercitiuService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ExercitiuService extends UnicastRemoteObject implements IExercitiuService{
     private EntityManagerFactory emf;

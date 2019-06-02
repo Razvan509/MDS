@@ -11,8 +11,9 @@ import java.rmi.RemoteException;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public interface IUserService extends Remote{
     public void adaugaUser(User u) throws RemoteException;
+    public User findByUserPass(String user,String pass) throws RemoteException;
 }

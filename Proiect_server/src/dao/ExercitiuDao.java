@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ExercitiuDao {
     private EntityManager em;

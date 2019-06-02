@@ -16,7 +16,7 @@ import rmi.IUserService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class UserService extends UnicastRemoteObject implements IUserService{
 
@@ -39,5 +39,17 @@ public class UserService extends UnicastRemoteObject implements IUserService{
         
         em.close();
     }
+
+    @Override
+    public User findByUserPass(String user, String pass) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        UserDao userDao = new UserDao(em);
+        
+        User u = userDao.findByUserPass(user, pass);
+        em.close();
+        return u;
+    }
+    
+    
     
 }

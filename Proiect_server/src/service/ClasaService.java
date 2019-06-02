@@ -9,6 +9,7 @@ import dao.ClasaDao;
 import db.Clasa;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,7 +17,7 @@ import rmi.IClasaService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ClasaService extends UnicastRemoteObject implements IClasaService{
 
@@ -36,6 +37,16 @@ public class ClasaService extends UnicastRemoteObject implements IClasaService{
         em.getTransaction().commit();
         
         em.close();
+    }
+
+    @Override
+    public List<Clasa> getAll() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        ClasaDao clasaDao = new ClasaDao(em);
+        
+        List<Clasa> c = clasaDao.getAll();
+        em.close();
+        return c;
     }
 
     

@@ -5,11 +5,11 @@
  */
 package main;
 
-import gui.AdminFrame;
+import gui.LoginFrame;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class Main {
 
@@ -17,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new AdminFrame(null);
+        new LoginFrame().setVisible(true);
     }
     
 }

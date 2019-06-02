@@ -5,21 +5,24 @@
  */
 package controller;
 
+import db.Elev;
 import db.Material;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import javax.swing.JOptionPane;
 import rmi.IMaterialService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class MaterialController {
     private IMaterialService materialService;
+    private static MaterialController instance;
     
-    public MaterialController(){
+    private MaterialController(){
         
         try{
             Registry registry = LocateRegistry.getRegistry("localhost",4444);
@@ -30,7 +33,24 @@ public class MaterialController {
         }
     }
     
+    public static MaterialController getInstance(){
+        if(instance == null) instance = new MaterialController();
+        return instance;
+    }
+    
     public void adaugaMaterial(Material c) throws RemoteException{
         materialService.adaugaMaterial(c);
+    }
+    
+    public List<Material> getAll() throws RemoteException{
+        return materialService.getAll();
+    }
+    
+    public List<Material> getAllForElev(Elev e) throws RemoteException{
+        return materialService.getAllForElev(e);
+    }
+    
+    public Material findById(int id)throws RemoteException{
+        return materialService.findById(id);
     }
 }

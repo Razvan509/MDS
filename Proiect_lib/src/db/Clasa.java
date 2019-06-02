@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 
 /**
  *
- * @author Razvan
+ * 
  */
 @Entity
 public class Clasa implements Serializable{
@@ -40,6 +40,9 @@ public class Clasa implements Serializable{
     
     @Column(nullable = false)
     private String nume;
+    
+    @OneToMany(mappedBy = "idClasa",cascade = CascadeType.ALL)
+    private List<Material> materiale;
 
     public long getId() {
         return id;
@@ -79,6 +82,19 @@ public class Clasa implements Serializable{
 
     public void setNume(String nume) {
         this.nume = nume;
+    }
+
+    public List<Material> getMateriale() {
+        return materiale;
+    }
+
+    public void setMateriale(List<Material> materiale) {
+        this.materiale = materiale;
+    }
+
+    @Override
+    public String toString() {
+        return profesor + " " + nume;
     }
     
     

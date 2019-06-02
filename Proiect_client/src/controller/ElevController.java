@@ -9,12 +9,13 @@ import db.Elev;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import javax.swing.JOptionPane;
 import rmi.IElevService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ElevController {
     private IElevService elevService;
@@ -24,7 +25,7 @@ public class ElevController {
         
         try{
             Registry registry = LocateRegistry.getRegistry("localhost",4444);
-            elevService = (IElevService) registry.lookup("elevService");
+            elevService = (IElevService) registry.lookup("ElevService");
         }catch(Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Eroare la conectare");
@@ -44,5 +45,13 @@ public class ElevController {
     
     public Elev findById(long id) throws RemoteException{
         return elevService.findById(id);
+    }
+    
+    public List<Elev> getAll() throws RemoteException{
+        return elevService.getAll();
+    }
+    
+    public Elev findByNumePrenume(String nume, String prenume) throws RemoteException{
+        return elevService.findByNumePrenume(nume, prenume);
     }
 }

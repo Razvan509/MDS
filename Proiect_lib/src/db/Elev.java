@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author Razvan
+ * 
  */
 @Entity
 public class Elev implements Serializable{
@@ -28,6 +28,9 @@ public class Elev implements Serializable{
     
     @Column(nullable = false)
     private String nume;
+    
+    @Column(nullable = false)
+    private String prenume;
     
     @ManyToOne
     @JoinColumn(nullable = true)
@@ -69,6 +72,14 @@ public class Elev implements Serializable{
         this.varsta = varsta;
     }
 
+    public String getPrenume() {
+        return prenume;
+    }
+
+    public void setPrenume(String prenume) {
+        this.prenume = prenume;
+    }
+
     
     
         
@@ -76,7 +87,7 @@ public class Elev implements Serializable{
     
     @Override
     public String toString() {
-        return "Elev{" + "id=" + id + ", nume=" + nume + ", clasa=" + clasa + ", varsta=" + varsta + '}';
+        return nume + " " + prenume;
     }
     
     

@@ -11,10 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author Razvan
+ * 
  */
 @Entity
 public class Exercitiu implements Serializable{
@@ -31,6 +33,10 @@ public class Exercitiu implements Serializable{
     
     @Column(nullable = false)
     private String raspuns;
+    
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private Material material;
 
     public long getId() {
         return id;
@@ -62,6 +68,14 @@ public class Exercitiu implements Serializable{
 
     public void setRaspuns(String raspuns) {
         this.raspuns = raspuns;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
     
     

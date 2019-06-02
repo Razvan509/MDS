@@ -6,15 +6,16 @@
 package gui;
 
 import controller.ProfesorController;
+import controller.UserController;
 import db.Profesor;
+import db.User;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.rmi.UnmarshalException;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author razvan
+ * 
  */
 public class AdaugaProfesorFrame extends javax.swing.JFrame {
 
@@ -183,33 +184,68 @@ public class AdaugaProfesorFrame extends javax.swing.JFrame {
         
         
         String nume = numeTextField.getText();
-        if(nume == null || nume.equals("") || nume.matches("\\S")){
+        if(nume == null || nume.equals("") || nume.trim().length() != nume.length()){
             JOptionPane.showMessageDialog(null, "Campul nume nu a fost completat sau contine spatii!");
             return;
         }
         String prenume = prenumeTextField.getText();
-        if(prenume == null || prenume.equals("") || prenume.matches("\\S")){
+        if(prenume == null || prenume.equals("") || prenume.trim().length() != prenume.length()){
             JOptionPane.showMessageDialog(null, "Campul prenume nu a fost completat sau contine spatii!");
             return;
         }
         String mail = emailTextField.getText();
-        if(mail == null || mail.equals("") || mail.matches("\\S")){
-            JOptionPane.showMessageDialog(null, "Campul mail nu a fost completat sau contine spatii!");
+        if(mail == null || mail.equals("") || mail.trim().length() != mail.length() || !mail.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+            JOptionPane.showMessageDialog(null, "Campul mail nu a fost completat corect!");
             return;
         }
         String user = userTextField.getText();
+        if(user == null || user.equals("") || user.trim().length() != user.length()){
+            JOptionPane.showMessageDialog(null, "Campul user nu a fost completat sau contine spatii!");
+            return;
+        }
         String parola1 = new String(parolaField1.getPassword());
+        if(parola1 == null || parola1.equals("") || parola1.trim().length() != parola1.length()){
+            JOptionPane.showMessageDialog(null, "Campul parola nu a fost completat sau contine spatii!");
+            return;
+        }
         String parola2 = new String(parolaField2.getPassword());
         
-        System.out.println(nume + " " + prenume+ " " + mail);
-        System.out.println(nume.trim() + " " + prenume.trim()+ " " + mail.trim());
-        /*try {
+        if(!parola1.equals(parola2)){
+            JOptionPane.showMessageDialog(null, "Nu sunt la fel parolele!");
+            return;
+        }
+        
+        p.setNume(nume);
+        p.setPrenume(prenume);
+        // adaug mai intai instanta de profesor in baza de date si apoi o caut in baza pentru a lua id-ul inregistrarii 
+        // din tabela profesor, id fiind primary key, pentru a trece id-ul in campul idClient din user.
+        try {
             ProfesorController.getInstance().adaugaProfesor(p);
             p = ProfesorController.getInstance().findByNumePrenume(p.getNume(), p.getPrenume());
             System.out.println(p.getId());
-        } catch (RemoteException ex) {
+            User u = new User();
+            u.setAdmin(false);
+            u.setEmail(mail);
+            u.setIdClient(p.getId());
+            u.setPassword(parola1);
+            u.setTip(true);
+            u.setUser(user);
+            UserController.getInstance().adaugaUser(u);
+            JOptionPane.showMessageDialog(null, "Adaugare cu succes!");
+            dispose();
+        }catch(UnmarshalException ue){
+            JOptionPane.showMessageDialog(null, "Combinatia user+parola a mai fost folosita!");
+        }
+        catch (RemoteException ex) {
             ex.printStackTrace();
-        }*/
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "A aparut o eroare!");
+            e.printStackTrace();
+        }finally{
+            
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

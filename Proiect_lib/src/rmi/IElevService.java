@@ -5,16 +5,18 @@
  */
 package rmi;
 
-import db.Clasa;
 import db.Elev;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public interface IElevService extends Remote{
     public void adaugaElev(Elev e) throws RemoteException;
     public Elev findById(long id) throws RemoteException;
+    public List<Elev> getAll() throws RemoteException;
+    public Elev findByNumePrenume(String nume, String prenume) throws RemoteException;
 }

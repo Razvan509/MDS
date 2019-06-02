@@ -14,7 +14,7 @@ import rmi.IExercitiuService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ExercitiuController {
     private IExercitiuService exercitiuService;

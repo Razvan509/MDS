@@ -5,22 +5,146 @@
  */
 package gui;
 
+import controller.MaterialController;
 import db.Elev;
+import db.Material;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.rmi.RemoteException;
+import static java.util.Comparator.comparing;
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ElevFrame extends javax.swing.JFrame {
+    
+    DefaultListModel modelCont = new DefaultListModel();
+    DefaultListModel modelMaterial = new DefaultListModel();
+    DefaultListModel modelTest = new DefaultListModel();
 
     private Elev elev;
     public ElevFrame(Elev elev) {
         initComponents();
         
         this.elev = elev;
+        
+        JPanel jp1 = new JPanel();
+        JPanel jp2 = new JPanel();
+        JPanel jp3 = new JPanel();
+        
+        jp1.setLayout(new BoxLayout(jp1,1));
+        
+        JList testList = new JList();
+        JList materialList = new JList();
+        
+        
+        
+        JScrollPane sp1 = new JScrollPane(testList);
+        JScrollPane sp2 = new JScrollPane(materialList);
+        
+        materialList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent m){
+                JList l = (JList) m.getSource();
+                if(m.getClickCount() == 2 && m.getButton() == MouseEvent.BUTTON1){
+                    try {
+                        String []sp = ((String)l.getSelectedValue()).split("\\s+");
+                        int id = Integer.parseInt(sp[sp.length-1]);
+                        Material mat = MaterialController.getInstance().findById(id);
+                        new MaterialFrame(mat.getText());
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        
+        sp1.setPreferredSize(new Dimension(500, 500));
+        sp2.setPreferredSize(new Dimension(500, 500));
+        
+        testList.setVisibleRowCount(19);
+        materialList.setVisibleRowCount(19);
+        
+        jp2.add(sp2);
+        jp3.add(sp1);
+        
+        
+        JLabel nume = new JLabel();
+        JLabel prenume = new JLabel();
+        nume.setText("Nume: " + elev.getNume());
+        prenume.setText("Prenume: " + elev.getPrenume());
+        
+        nume.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        prenume.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        
+        jp1.add(nume);
+        jp1.add(prenume);
+        
+        
+        testList.setModel(modelTest);
+        materialList.setModel(modelMaterial);
+        
+        materialList.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        testList.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        
+        jTabbedPane1.addTab("Cont", jp1);
+        jTabbedPane1.addTab("Materiale", jp2);
+        jTabbedPane1.addTab("Teste", jp3);
+        
+        JButton delogare = new JButton();
+        delogare.setText("Delogare");
+        delogare.setEnabled(true);
+        delogare.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        delogare.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){  
+                        dispose();
+                        new LoginFrame();
+                    }  
+                });  
+        
+        jp1.add(delogare);
+        populareMateriale();
+        populareTest();
+        
         setTitle("Invatacel 0.5 beta");
         setLocationRelativeTo(null);
         setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+    }
+    
+    public void populareMateriale(){
+        try {
+            modelMaterial.clear();
+            List<Material> materiale = MaterialController.getInstance().getAllForElev(elev);
+            materiale.stream().sorted(comparing(Material::getNume)).forEach(a -> modelMaterial.addElement(a + " "+a.getId()));
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void populareTest(){
+        try {
+            modelTest.clear();
+            List<Material> materiale = MaterialController.getInstance().getAllForElev(elev);
+            materiale.stream().sorted(comparing(Material::getNume)).forEach(a -> modelTest.addElement(a + " "+a.getId()));
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -32,87 +156,19 @@ public class ElevFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(0, 0, 255));
-
-        jInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 118, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
-        );
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
-        );
-
-        jMenu1.setText("Acasa");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Invata");
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Teste");
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Clasa");
-        jMenuBar1.add(jMenu4);
-
-        jMenu5.setText("Setari");
-        jMenuBar1.add(jMenu5);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(672, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
         );
 
         pack();
@@ -124,15 +180,6 @@ public class ElevFrame extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public interface IExercitiuService extends Remote{
     public void adaugaExercitiu(Exercitiu e) throws RemoteException;

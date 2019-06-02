@@ -6,12 +6,13 @@
 package dao;
 
 import db.Profesor;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ProfesorDao {
     private EntityManager em;
@@ -37,6 +38,12 @@ public class ProfesorDao {
         q.setParameter("nume",nume);
         q.setParameter("prenume",prenume);
         Profesor p = (Profesor) q.getSingleResult();
+        return p;
+    }
+    
+    public List<Profesor> getAll(){
+        Query q = em.createQuery("SELECT p FROM Profesor p");
+        List<Profesor> p = (List<Profesor>) q.getResultList();
         return p;
     }
 }

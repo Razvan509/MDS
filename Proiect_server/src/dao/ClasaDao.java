@@ -6,11 +6,13 @@
 package dao;
 
 import db.Clasa;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ClasaDao {
     private EntityManager em;
@@ -21,6 +23,12 @@ public class ClasaDao {
     
     public void adaugaClasa(Clasa c){
         em.persist(c);
+    }
+    
+    public List<Clasa> getAll(){
+        Query q = em.createQuery("SELECT c FROM Clasa c");
+        List<Clasa> clase = (List<Clasa>) q.getResultList();
+        return clase;
     }
     
     

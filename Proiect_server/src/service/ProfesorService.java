@@ -9,6 +9,7 @@ import dao.ProfesorDao;
 import db.Profesor;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,7 +17,7 @@ import rmi.IProfesorService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ProfesorService extends UnicastRemoteObject implements IProfesorService{
     private EntityManagerFactory emf;
@@ -54,6 +55,17 @@ public class ProfesorService extends UnicastRemoteObject implements IProfesorSer
         ProfesorDao profesorDao = new ProfesorDao(em);
         
         Profesor p = profesorDao.findByNumePrenume(nume,prenume);
+        
+        em.close();
+        return p;
+    }
+
+    @Override
+    public List<Profesor> getAll() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        ProfesorDao profesorDao = new ProfesorDao(em);
+        
+        List<Profesor> p = profesorDao.getAll();
         
         em.close();
         return p;

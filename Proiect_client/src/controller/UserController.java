@@ -14,7 +14,7 @@ import rmi.IUserService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class UserController {
     private IUserService userService;
@@ -40,5 +40,9 @@ public class UserController {
     
     public void adaugaUser(User u) throws RemoteException{
         userService.adaugaUser(u);
+    }
+    
+    public User findByUserPass(String user,String pass) throws RemoteException{
+        return userService.findByUserPass(user, pass);
     }
 }

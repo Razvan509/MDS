@@ -9,12 +9,13 @@ import db.Clasa;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import javax.swing.JOptionPane;
 import rmi.IClasaService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ClasaController {
     private IClasaService clasaService;
@@ -40,5 +41,9 @@ public class ClasaController {
     
     public void adaugaClasa(Clasa c) throws RemoteException{
         clasaService.adaugaClasa(c);
+    }
+    
+    public List<Clasa> getAll() throws RemoteException{
+        return clasaService.getAll();
     }
 }

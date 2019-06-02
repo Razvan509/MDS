@@ -9,12 +9,13 @@ import db.Profesor;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import javax.swing.JOptionPane;
 import rmi.IProfesorService;
 
 /**
  *
- * @author Razvan
+ * 
  */
 public class ProfesorController {
     private IProfesorService profesorService;
@@ -48,5 +49,9 @@ public class ProfesorController {
     
     public Profesor findByNumePrenume(String nume, String prenume) throws RemoteException{
         return profesorService.findByNumePrenume(nume, prenume);
+    }
+    
+    public List<Profesor> getAll() throws RemoteException{
+        return profesorService.getAll();
     }
 }
