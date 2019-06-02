@@ -6,9 +6,11 @@
 package controller;
 
 import db.Exercitiu;
+import db.Material;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import javax.swing.JOptionPane;
 import rmi.IExercitiuService;
 
@@ -18,8 +20,9 @@ import rmi.IExercitiuService;
  */
 public class ExercitiuController {
     private IExercitiuService exercitiuService;
+    private static ExercitiuController instance;
     
-    public ExercitiuController(){
+    private ExercitiuController(){
         
         try{
             Registry registry = LocateRegistry.getRegistry("localhost",4444);
@@ -30,7 +33,18 @@ public class ExercitiuController {
         }
     }
     
+    public static ExercitiuController getInstance(){
+        if(instance==null){
+            instance = new ExercitiuController();
+        }
+        return instance;
+    }
+    
     public void adaugaExercitiu(Exercitiu e) throws RemoteException{
         exercitiuService.adaugaExercitiu(e);
+    }
+    
+    public List<Exercitiu> getExercitiiMaterial(Material m) throws RemoteException{
+        return exercitiuService.getExercitiiMaterial(m);
     }
 }

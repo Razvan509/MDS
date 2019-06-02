@@ -6,7 +6,10 @@
 package dao;
 
 import db.Exercitiu;
+import db.Material;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -21,5 +24,12 @@ public class ExercitiuDao {
     
     public void adaugaExercitiu(Exercitiu e){
         em.persist(e);
+    }
+    
+    public List<Exercitiu> getExercitiiMaterial(Material m){
+        Query q = em.createQuery("SELECT e FROM Exercitiu e WHERE e.material = :material");
+        q.setParameter("material",m);
+        List<Exercitiu> exercitii = (List<Exercitiu>) q.getResultList();
+        return exercitii;
     }
 }

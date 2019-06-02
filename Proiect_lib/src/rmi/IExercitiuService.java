@@ -6,8 +6,10 @@
 package rmi;
 
 import db.Exercitiu;
+import db.Material;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
@@ -15,4 +17,5 @@ import java.rmi.RemoteException;
  */
 public interface IExercitiuService extends Remote{
     public void adaugaExercitiu(Exercitiu e) throws RemoteException;
+    public List<Exercitiu> getExercitiiMaterial(Material m) throws RemoteException;
 }

@@ -73,6 +73,22 @@ public class ElevFrame extends javax.swing.JFrame {
             }
         });
         
+        testList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent m){
+                JList l = (JList) m.getSource();
+                if(m.getClickCount() == 2 && m.getButton() == MouseEvent.BUTTON1){
+                    try {
+                        String []sp = ((String)l.getSelectedValue()).split("\\s+");
+                        int id = Integer.parseInt(sp[sp.length-1]);
+                        Material mat = MaterialController.getInstance().findById(id);
+                        new TestFrame(mat);
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        
         sp1.setPreferredSize(new Dimension(500, 500));
         sp2.setPreferredSize(new Dimension(500, 500));
         

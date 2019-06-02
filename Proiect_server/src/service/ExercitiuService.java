@@ -7,8 +7,10 @@ package service;
 
 import dao.ExercitiuDao;
 import db.Exercitiu;
+import db.Material;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -35,5 +37,15 @@ public class ExercitiuService extends UnicastRemoteObject implements IExercitiuS
         em.getTransaction().commit();
         
         em.close();
+    }
+
+    @Override
+    public List<Exercitiu> getExercitiiMaterial(Material m) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        ExercitiuDao exercitiuDao = new ExercitiuDao(em);
+        
+        List<Exercitiu> exercitii = exercitiuDao.getExercitiiMaterial(m);
+        em.close();
+        return exercitii;
     }
 }
